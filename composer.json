@@ -1,0 +1,36 @@
+{
+    "name": "bagene/payments-wrapper",
+    "description": "Simple Payment Integration Wrapper",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Bagene\\PaymentsWrapper\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Bagene\\PaymentsWrapper\\Tests\\": "tests/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Gene Carlo Navera",
+            "email": "gnavera@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Bagene\\PaymentsWrapper\\PaymentServiceProvider"
+            ]
+        }
+    },
+    "scripts": {
+        "post-autoload-dump": [
+            "@php vendor/bin/testbench package:discover --ansi"
+        ]
+    },
+    "require-dev": {
+        "orchestra/testbench": "^8.3"
+    }
+}
