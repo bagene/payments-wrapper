@@ -3,6 +3,7 @@
 namespace Bagene\PaymentsWrapper\Tests;
 
 use Bagene\PaymentsWrapper\Stripe\Stripe;
+use Illuminate\Support\Facades\Http;
 use Orchestra\Testbench\TestCase;
 
 class StripeTest extends \Orchestra\Testbench\TestCase
@@ -17,7 +18,7 @@ class StripeTest extends \Orchestra\Testbench\TestCase
 	 */
 	protected function defineEnvironment($app)
 	{
-		// Setup default database to use sqlite :memory:
+		// setup stripe config
 		$app['config']->set('payments.stripe', [
 			'public_key' => env('STRIPE_PUBLIC_KEY'),
 			'secret' => env('STRIPE_SECRET'),
@@ -33,6 +34,9 @@ class StripeTest extends \Orchestra\Testbench\TestCase
 
 		$auth = $stripe->authenticate();
 
-		$this->assertEquals($expected, $auth);
+		$response = $stripe->testRequest();
+
+		$this->assertEquals($response->status(), 200);
+		$this->assertIsArray($response->json());
 	}
 }

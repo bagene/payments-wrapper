@@ -3,11 +3,15 @@
 namespace Bagene\PaymentsWrapper\Stripe;
 
 use Bagene\PaymentsWrapper\Interfaces\Payments;
+use Illuminate\Http\Client\PendingRequest;
+use Illuminate\Support\Facades\Http;
 
 class Stripe implements Payments
 {
+	protected string $url = 'https://api.stripe.com/v1';
 	protected string $publicKey;
 	protected string $secret;
+	protected ?PendingRequest $request;
 
 	public function __construct()
 	{
@@ -17,7 +21,12 @@ class Stripe implements Payments
 
 	public function authenticate()
 	{
-		return "Bearer {$this->secret}";
+		$this->request = Http::withToken($this->secret);
+	}
+
+	public function testRequest()
+	{
+		return $this->request->get("$this->url/charges");
 	}
 
 	public function createPayment(array $payload)

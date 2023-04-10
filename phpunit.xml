@@ -20,6 +20,6 @@
     <php>
         <env name="APP_ENV" value="testing"/>
         <env name="STRIPE_PUBLIC_KEY" value="Test"/>
-        <env name="STRIPE_SECRET" value="Test"/>
+        <env name="STRIPE_SECRET" value="sk_test_51LGGlRIQW336zmd9fG58rF9fz1OF1KGJsnFxE5Q9jmhlyIcLXedLcm8gIC6NKlIvLJB4BWvcYwkAnHuP5iV1BW8t00Eo6oHwJm"/>
     </php>
 </phpunit>
