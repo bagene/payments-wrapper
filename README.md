@@ -8,6 +8,19 @@ A simple wrapper for payment gateways like Stripe. This includes an interface fo
 
 - Make a folder named `bagene` inside your laravel project and clone this repository inside
 - `git clone git@github.com:bagene/payments-wrapper.git`
+- add `payments-wrapper` to your composer as local package
+
+```
+"repositories": {
+    "payments-wrapper": {
+        "type": "path",
+        "url": "bagene/payments-wrapper",
+        "options": {
+            "symlink": true
+        }
+    }
+},
+```
 
 ### Publish Config
 
