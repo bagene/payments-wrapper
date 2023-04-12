@@ -2,7 +2,9 @@
 
 namespace Bagene\PaymentsWrapper\Stripe;
 
+use Bagene\PaymentsWrapper\Exceptions\StripeException;
 use Bagene\PaymentsWrapper\Interfaces\Payments;
+use Exception;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
@@ -47,7 +49,13 @@ class Stripe implements Payments
 	{
 		$token = $this->createToken($payload);
 		$payload['source'] = $token->json(['id']);
-		return $this->createCharge($payload);
+		$charge =  $this->createCharge($payload);
+
+		if ($charge->status() > 299) {
+			throw new StripeException($charge->json('error.message'), $charge->status());
+		}
+
+		return $charge;
 	}
 
 	/**
@@ -58,7 +66,11 @@ class Stripe implements Payments
 	public function createToken(array $payload): Response
 	{
 		$payload = $this->validateToken($payload);
-		return $this->request->post("$this->url/tokens", $payload);
+		$token =  $this->request->post("$this->url/tokens", $payload);
+		if ($token->status() > 299) {
+			throw new StripeException($token->json('error.message'), $token->status());
+		}
+		return $token;
 	}
 
 	/**
@@ -69,7 +81,12 @@ class Stripe implements Payments
 	public function createCharge($payload): Response
 	{
 		$payload = $this->validateCharge($payload);
-		return $this->request->post("$this->url/charges", $payload);
+		$charge = $this->request->post("$this->url/charges", $payload);
+		if ($charge->status() > 299) {
+			throw new StripeException($charge->json('error.message'), $charge->status());
+		}
+
+		return $charge;
 	}
 
 	/**
