@@ -77,3 +77,7 @@ other methods are available if you wanna customize your payment flow
 - `createToken()`
 - `createCharge()`
 - `captureCharge()`
+
+## Testing
+
+`./vendor/bin/phpunit`
